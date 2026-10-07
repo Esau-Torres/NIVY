@@ -1,0 +1,95 @@
+{
+  "nombre": "NIVY",
+  "version": "0.01",
+  "playlist_musica": "https://www.youtube.com/watch?v=2FTEaI-nGOA&list=PLI1yT-YHTPFY&index=1",
+  "reglas": [
+    {
+      "id": "R001",
+      "nombre": "Consultar la hora",
+      "prioridad": 100,
+      "patrones": [
+        "\\bque hora es\\b",
+        "\\bdime la hora\\b",
+        "\\bhora actual\\b"
+      ],
+      "accion": "hora",
+      "respuesta": "La hora actual es {hora}."
+    },
+    {
+      "id": "R002",
+      "nombre": "Consultar la fecha",
+      "prioridad": 100,
+      "patrones": [
+        "\\bque fecha es\\b",
+        "\\bque dia es\\b",
+        "\\bfecha actual\\b",
+        "\\bdime la fecha\\b"
+      ],
+      "accion": "fecha",
+      "respuesta": "Hoy es {fecha}."
+    },
+    {
+      "id": "R003",
+      "nombre": "Reproducir playlist de musica",
+      "prioridad": 95,
+      "patrones": [
+        "\\bpon mi playlist\\b",
+        "\\breproduce mi playlist\\b",
+        "\\breproduce mi musica\\b",
+        "\\bpon musica\\b",
+        "\\bquiero escuchar musica\\b"
+      ],
+      "accion": "reproducir_playlist",
+      "respuesta": "Abriendo tu playlist de música."
+    },
+    {
+      "id": "R004",
+      "nombre": "Abrir YouTube",
+      "prioridad": 90,
+      "patrones": [
+        "\\babre youtube\\b",
+        "\\babrir youtube\\b",
+        "\\bentra a youtube\\b"
+      ],
+      "accion": "youtube",
+      "respuesta": "Abriendo YouTube."
+    },
+    {
+      "id": "R005",
+      "nombre": "Consultar noticias",
+      "prioridad": 85,
+      "patrones": [
+        "\\bnoticias\\b",
+        "\\bdame las noticias\\b",
+        "\\bque hay de nuevo\\b",
+        "\\bultimas noticias\\b",
+        "\\bultimas noticias de hoy\\b"
+      ],
+      "accion": "noticias",
+      "respuesta": "Consultando las noticias más recientes."
+    },
+    {
+      "id": "R006",
+      "nombre": "Buscar en internet",
+      "prioridad": 80,
+      "patrones": [
+        "\\bbusca en internet (.+)",
+        "\\bbusca en la web (.+)",
+        "\\bbusca (.+)"
+      ],
+      "accion": "buscar"
+    },
+    {
+      "id": "R007",
+      "nombre": "Ayuda",
+      "prioridad": 70,
+      "patrones": [
+        "\\bayuda\\b",
+        "\\bque puedes hacer\\b",
+        "\\bcomandos\\b"
+      ],
+      "accion": "ayuda",
+      "respuesta": "Puedo consultar la hora y fecha, abrir YouTube, reproducir tu playlist, consultar noticias y realizar búsquedas en internet."
+    }
+  ]
+}
