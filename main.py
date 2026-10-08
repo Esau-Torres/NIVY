@@ -1,44 +1,87 @@
 from acciones import ejecutar
 from explicacion import generar_explicacion
-from interfaz import mostrar_bienvenida, leer_comando, responder
+from interfaz import (
+    mostrar_bienvenida,
+    leer_comando,
+    responder
+)
 from motor import MotorExperto
+from reproductor import Reproductor
 
 
 def main():
+
     motor = MotorExperto()
+
+    reproductor = Reproductor(
+        motor.conocimiento
+    )
+
     mostrar_bienvenida()
 
-    while True:
-        entrada = leer_comando()
+    try:
 
-        if not entrada:
-            responder("Escribe una instrucción.")
-            continue
+        while True:
 
-        if motor.normalizar(entrada) in {"salir", "cerrar", "terminar"}:
-            responder("Hasta luego.")
-            break
+            entrada = leer_comando()
 
-        resultado = motor.evaluar(entrada)
+            if not entrada:
 
-        if resultado is None:
-            responder(
-                "No entendí la solicitud. Prueba con 'ayuda' para ver "
-                "los comandos disponibles."
+                responder(
+                    "Escribe una instrucción."
+                )
+
+                continue
+
+            if motor.normalizar(
+                entrada
+            ) in {
+                "salir",
+                "cerrar",
+                "terminar"
+            }:
+
+                responder(
+                    "Hasta luego."
+                )
+
+                break
+
+            resultado = motor.evaluar(
+                entrada
             )
-            continue
 
-        regla = resultado["regla"]
-        respuesta = ejecutar(
-            regla["accion"],
-            resultado,
-            motor.conocimiento
-        )
+            if resultado is None:
 
-        responder(respuesta)
+                responder(
+                    "No entendí la solicitud. "
+                    "Prueba con 'ayuda' para ver "
+                    "los comandos disponibles."
+                )
 
-        # Modo de trazabilidad del sistema experto.
-        print(f"[EXPLICACIÓN] {generar_explicacion(resultado)}")
+                continue
+
+            regla = resultado["regla"]
+
+            respuesta = ejecutar(
+                regla["accion"],
+                resultado,
+                motor.conocimiento,
+                reproductor
+            )
+
+            responder(
+                respuesta
+            )
+
+            print(
+                f"[EXPLICACIÓN] "
+                f"{generar_explicacion(resultado)}"
+            )
+
+    finally:
+
+        reproductor.cerrar()
 
 
 if __name__ == "__main__":
