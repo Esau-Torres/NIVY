@@ -4,12 +4,12 @@
 
   "youtube": {
     "playlists": {
-      "Electronic": {
+      "Electronica": {
         "nombre": "Electronic gg",
         "url": "https://www.youtube.com/playlist?list=PLI1yT-YHTPFY"
       },
 
-      "bass": {
+      "bajo": {
         "nombre": "Bajo alto",
         "url": "https://www.youtube.com/playlist?list=PLLCYvczom58U"
       }
