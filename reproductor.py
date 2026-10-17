@@ -81,7 +81,7 @@ class Reproductor:
             return
 
         opciones = Options()
-        # Nos conectamos a la instancia de Brave que ya abrimos con --remote-debugging-port=9222
+        # en una terminal pon "C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe" --remote-debugging-port=9222
         opciones.debugger_address = "127.0.0.1:9222"
         
         # Indicamos la ruta de Brave por si acaso
@@ -563,6 +563,46 @@ class Reproductor:
             f"de {len(self.canciones)}."
         )
 
+    # =========================================================
+    # PAUSAR
+    # =========================================================
+
+    def pausar(self):
+        if self.driver is None:
+            return "No hay ninguna sesión de navegador activa para pausar."
+        try:
+            # Ejecuta JavaScript para pausar el elemento de video de YouTube
+            self.driver.execute_script("""
+                const video = document.querySelector('video');
+                if (video) {
+                    video.pause();
+                }
+            """)
+            return "Reproducción pausada."
+        except Exception as error:
+            print(f"[REPRODUCTOR] Error al pausar: {error}")
+            return "No se pudo pausar la reproducción."
+
+    # =========================================================
+    # REANUDAR
+    # =========================================================
+
+    def reanudar(self):
+        if self.driver is None:
+            return "No hay ninguna sesión de navegador activa para reanudar."
+        try:
+            # Ejecuta JavaScript para reanudar el elemento de video de YouTube
+            self.driver.execute_script("""
+                const video = document.querySelector('video');
+                if (video) {
+                    video.play();
+                }
+            """)
+            return "Reproducción reanudada."
+        except Exception as error:
+            print(f"[REPRODUCTOR] Error al reanudar: {error}")
+            return "No se pudo reanudar la reproducción."
+    
     # =========================================================
     # CERRAR NAVEGADOR
     # =========================================================

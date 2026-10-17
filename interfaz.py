@@ -8,6 +8,7 @@ def mostrar_bienvenida():
     print("  • ¿Qué fecha es?")
     print("  • Reproduce Electronica")
     print("  • Reproduce bajo")
+    print("  • Reproduce metal")
     print("  • Siguiente canción")
     print("  • Canción anterior")
     print("  • ¿Qué estoy escuchando?")

@@ -1,6 +1,6 @@
 {
   "nombre": "NIVY",
-  "version": "0.02",
+  "version": "0.03",
 
   "youtube": {
     "playlists": {
@@ -12,6 +12,10 @@
       "bajo": {
         "nombre": "Bajo alto",
         "url": "https://www.youtube.com/playlist?list=PLLCYvczom58U"
+      },
+      "metal": {
+        "nombre": "Nu metal",
+        "url": "https://www.youtube.com/playlist?list=PLVenvN_W8WSk"
       }
     },
 
@@ -90,6 +94,20 @@
       ],
       "accion": "noticias",
       "respuesta": "Consultando las noticias más recientes."
+    },
+    
+    {
+      "id": "R017",
+      "nombre": "Abrir noticia por índice",
+      "prioridad": 90,
+      "patrones": [
+        "\\bir a la noticia (\\d+)\\b",
+        "\\babrir noticia (\\d+)\\b",
+        "\\babre la noticia (\\d+)\\b",
+        "\\bnoticia (\\d+)\\b"
+      ],
+      "accion": "abrir_noticia",
+      "respuesta": "Abriendo la noticia en el navegador."
     },
 
     {
@@ -171,6 +189,86 @@
         "\\bestado de reproduccion\\b"
       ],
       "accion": "estado_reproduccion"
+    },
+
+    {
+      "id": "R012",
+      "nombre": "Pausar reproducción",
+      "prioridad": 98,
+      "patrones": [
+        "\\bpausa\\b",
+        "\\bpausar\\b",
+        "\\bdeten la musica\\b",
+        "\\bpara la musica\\b",
+        "\\bpausa el video\\b",
+        "\\bdetener\\b",
+        "\\bnivy pausa\\b"
+      ],
+      "accion": "pausar_reproduccion",
+      "respuesta": "Pausando la reproducción."
+    },
+
+    {
+      "id": "R013",
+      "nombre": "Reanudar reproducción",
+      "prioridad": 98,
+      "patrones": [
+        "\\breanuda\\b",
+        "\\breanudar\\b",
+        "\\bcontinua\\b",
+        "\\bcontinuar\\b",
+        "\\bplay\\b",
+        "\\bsigue\\b",
+        "\\bseguir reproduciendo\\b",
+        "\\bnivy reanuda la cancion\\b"
+      ],
+      "accion": "reanudar_reproduccion",
+      "respuesta": "Reanudando la reproducción."
+    },
+
+    {
+      "id": "R014",
+      "nombre": "Consultar información del creador",
+      "prioridad": 100,
+      "patrones": [
+        "\\bquien es tu creador\\b",
+        "\\bquien te creo\\b",
+        "\\bcomo te crearon\\b",
+        "\\bcreador\\b",
+        "\\bquien eres\\b",
+         "\\bNIVY quien es el creador\\b"
+      ],
+      "accion": "creador",
+      "respuesta": "Hola soy NIVY tu asistente virtual fui creada en la fecha 15/10/2026 por el creador desarrollador DEVELOPER ESAU TORRES desarrollador fullstack, informatico superior, dime en que puedo ayudarte"
+    },
+
+    {
+      "id": "R015",
+      "nombre": "Cambiar a modo texto",
+      "prioridad": 100,
+      "patrones": [
+        "\\bcambiar a modo texto\\b",
+        "\\bcambiar a texto\\b",
+        "\\bcambia a texto\\b",
+        "\\bmodo texto\\b",
+        "\\bsolo texto\\b"
+      ],
+      "accion": "modo_texto",
+      "respuesta": "Cambiando a modo de texto. Ya puedes escribir tus comandos en la consola."
+    },
+    {
+      "id": "R016",
+      "nombre": "Cambiar a modo voz",
+      "prioridad": 100,
+      "patrones": [
+        "\\bcambiar a modo voz\\b",
+        "\\bcambiar a voz\\b",
+        "\\bcambia a voz\\b",
+        "\\bmodo voz\\b",
+        "\\bsolo voz\\b"
+      ],
+      "accion": "modo_voz",
+      "respuesta": "Cambiando a modo de voz. Te escucho por el micrófono."
     }
 
   ]

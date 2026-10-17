@@ -12,7 +12,7 @@ class GestorVoz:
 
     def escuchar(self, duracion=6, sample_rate=16000):
         """Graba audio del micrófono y lo transcribe con contexto"""
-        print("\n🎤 NIVY te escucha... (habla claro ahora)")
+        print("\nNIVY te escucha... (habla claro ahora)")
         archivo_audio = "temp_audio.wav"
         try:
             # Grabar audio
@@ -34,7 +34,7 @@ class GestorVoz:
             )
             texto = resultado["text"].strip()
             
-            print(f"🗣️ Dijiste: {texto}")
+            print(f"Dijiste: {texto}")
             return texto
         except Exception as e:
             print(f"[VOZ] Error al procesar el audio: {e}")
@@ -48,7 +48,7 @@ class GestorVoz:
 
     def hablar(self, texto):
         """Genera voz neuronal fluida en formato WAV y la reproduce limpiamente"""
-        print(f"🤖 NIVY (Voz) > {texto}")
+        print(f"NIVY (Voz) > {texto}")
         archivo_respuesta_wav = "respuesta.wav"
         try:
             # Seleccionamos la voz femenina neuronal de México (fluida y natural)
