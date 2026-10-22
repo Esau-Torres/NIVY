@@ -269,6 +269,34 @@
       ],
       "accion": "modo_voz",
       "respuesta": "Cambiando a modo de voz. Te escucho por el micrófono."
+    },
+    {
+      "id": "R018",
+      "nombre": "Enviar mensaje por WhatsApp",
+      "prioridad": 95,
+      "patrones": [
+        "\\benvia un mensaje a (.+) que diga (.+)",
+        "\\benvia un mensaje a (.+) diciendo (.+)",
+        "\\bmandale un mensaje a (.+) que diga (.+)",
+        "\\bescribele a (.+) que (.+)",
+        "\\bcontestale a (.+) dile (.+)"
+      ],
+      "accion": "enviar_whatsapp",
+      "respuesta": "Preparando el envío del mensaje de WhatsApp."
+    },
+    {
+      "id": "R019",
+      "nombre": "Leer mensajes no leídos de WhatsApp",
+      "prioridad": 95,
+      "patrones": [
+        "\\blee mis mensajes\\b",
+        "\\bhay mensajes nuevos\\b",
+        "\\btengo mensajes no leidos\\b",
+        "\\b¿tengo mensajes no leidos?\\b",
+        "\\bque mensajes tengo\\b"
+      ],
+      "accion": "leer_whatsapp",
+      "respuesta": "Revisando WhatsApp en busca de mensajes nuevos."
     }
 
   ]

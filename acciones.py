@@ -1,5 +1,6 @@
 import json
 import re
+import random
 from datetime import datetime
 from urllib.parse import quote_plus, unquote
 from urllib.request import Request, urlopen
@@ -12,84 +13,80 @@ YOUTUBE_URL = "https://www.youtube.com/"
 BUSQUEDA_URL = "https://www.google.com/search?q={}"
 NOTICIAS_RSS = "https://news.google.com/rss?hl=es-419&gl=SV&ceid=SV:es-419"
 
-# Variables globales para guardar las últimas noticias consultadas
 ULTIMAS_NOTICIAS = []
 
 def ahora():
     return datetime.now(ZONA_HORARIA)
 
-def buscar_informacion(consulta):
-    """Busca primero en Wikipedia (definiciones exactas) y luego en la web (DuckDuckGo)"""
+def obtener_saludo_inicial():
+    """Genera un saludo dinámico con fecha y mensaje motivacional"""
+    dias = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
+    meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
+    fecha = ahora()
+    fecha_str = f"{dias[fecha.weekday()]} {fecha.day} de {meses[fecha.month - 1]}"
     
-    # Intento 1: API de búsqueda de Wikipedia (Tolera errores ortográficos y mayúsculas)
+    motivaciones = [
+        "¡Es un gran día para lograr tus metas!",
+        "¡Vamos a dar lo mejor de nosotros hoy!",
+        "¡Estoy lista para ayudarte a ser muy productivo!",
+        "¡Hagamos que hoy sea un día excelente!",
+        "¡Comencemos con toda la energía!"
+    ]
+    motivacion = random.choice(motivaciones)
+    
+    msj_voz = f"Hola. Hoy es {fecha_str}. {motivacion} ¿En qué te puedo ayudar?"
+    msj_consola = f"✨ Hola. Hoy es {fecha_str}. {motivacion} 🚀\n(Escribe o di 'ayuda' si necesitas ver mis comandos)."
+    
+    return msj_consola, msj_voz
+
+def buscar_informacion(consulta):
     try:
         url_busqueda = f"https://es.wikipedia.org/w/api.php?action=query&list=search&srsearch={quote_plus(consulta)}&utf8=&format=json"
         solicitud_busqueda = Request(url_busqueda, headers={"User-Agent": "NIVY/1.0"})
-        
         with urlopen(solicitud_busqueda, timeout=5) as respuesta:
             datos_busqueda = json.loads(respuesta.read())
             resultados = datos_busqueda.get("query", {}).get("search", [])
-            
             if resultados:
-                # Tomar el título exacto del primer resultado (Ej: corrige "sistema experto" a "Sistema experto")
                 titulo_exacto = resultados[0]["title"]
                 titulo_url = quote_plus(titulo_exacto.replace(" ", "_"))
                 
                 url_resumen = f"https://es.wikipedia.org/api/rest_v1/page/summary/{titulo_url}"
                 solicitud_resumen = Request(url_resumen, headers={"User-Agent": "NIVY/1.0"})
-                
                 with urlopen(solicitud_resumen, timeout=5) as resp_resumen:
                     datos_resumen = json.loads(resp_resumen.read())
                     resumen = datos_resumen.get("extract")
                     enlace = datos_resumen.get("content_urls", {}).get("desktop", {}).get("page", "")
                     
                     if resumen and enlace:
-                        consola = f"Resumen (Wikipedia): {resumen}\n-> [Ir a la fuente]({enlace})"
-                        voz = f"Esto encontré sobre {consulta}: {resumen}"
-                        return consola, voz
+                        return f"Resumen (Wikipedia): {resumen}\n-> [Ir a la fuente]({enlace})", f"Esto encontré sobre {consulta}: {resumen}"
     except Exception:
-        pass # Si falla Wikipedia, pasamos a DuckDuckGo web
+        pass
     
-    # Intento 2: Raspado web tolerante en DuckDuckGo (para búsquedas generales)
     try:
         url_ddg = f"https://html.duckduckgo.com/html/?q={quote_plus(consulta)}"
         solicitud_ddg = Request(url_ddg, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
-        
         with urlopen(solicitud_ddg, timeout=7) as respuesta:
             html = respuesta.read().decode('utf-8')
         
-        # Regex más flexible: DuckDuckGo a veces usa <a> o <div> para los resultados
         snippet_match = re.search(r'class="result__snippet[^>]*>(.*?)(?:<\/a>|<\/div>)', html, re.IGNORECASE | re.DOTALL)
         link_match = re.search(r'<a class="result__url" href="([^"]+)"', html, re.IGNORECASE)
         
         if snippet_match and link_match:
-            # Limpiar etiquetas HTML residuales (<b>, </b>, etc.)
             resumen_html = snippet_match.group(1)
             resumen = re.sub(r'<[^>]+>', '', resumen_html).strip()
-            
             enlace = link_match.group(1)
-            # Limpiar redirecciones internas de DuckDuckGo en el link
             if "uddg=" in enlace:
                 enlace = unquote(enlace.split("uddg=")[1].split("&")[0])
-
             if resumen:
-                consola = f"Resumen Web: {resumen}\n-> [Ir a la fuente]({enlace})"
-                voz = f"Esto encontré en la web sobre {consulta}: {resumen}"
-                return consola, voz
+                return f"Resumen Web: {resumen}\n-> [Ir a la fuente]({enlace})", f"Esto encontré en la web sobre {consulta}: {resumen}"
     except Exception:
-        pass # Fallo en el raspado, pasamos a Google
+        pass
     
-    # Fallback 3: Si todo falla, abrimos el buscador de Google en el navegador
     enlace_google = BUSQUEDA_URL.format(quote_plus(consulta))
-    consola = f"Te mostraré los resultados directamente en tu navegador:\n-> [Ir a resultados]({enlace_google})"
-    voz = f"He abierto los resultados de {consulta} en tu navegador."
     webbrowser.open_new_tab(enlace_google)
-    
-    return consola, voz
+    return f"Te mostraré los resultados en tu navegador:\n-> [Ir a resultados]({enlace_google})", f"He abierto los resultados de {consulta} en tu navegador."
 
-def ejecutar(accion, resultado, conocimiento, reproductor=None):
-    # NOTA: Ahora las funciones devuelven una Tupla -> (Texto_Consola, Texto_Voz)
-    
+def ejecutar(accion, resultado, conocimiento, reproductor=None, whatsapp=None):
     if accion == "hora":
         msj = f"La hora actual es {ahora().strftime('%H:%M:%S')}."
         return msj, msj
@@ -136,20 +133,66 @@ def ejecutar(accion, resultado, conocimiento, reproductor=None):
     if accion == "abrir_noticia":
         grupos = resultado.get("grupos", ())
         if grupos and grupos[0].isdigit():
-            indice = int(grupos[0]) - 1 # Restamos 1 porque el usuario dice "1" pero en la lista es "0"
+            indice = int(grupos[0]) - 1
             if 0 <= indice < len(ULTIMAS_NOTICIAS):
                 enlace = ULTIMAS_NOTICIAS[indice]
                 webbrowser.open_new_tab(enlace)
                 msj = f"Abriendo la noticia {indice + 1} en tu navegador."
                 return msj, msj
             else:
-                msj = "El número de noticia no es válido. Primero pídemelas de nuevo."
+                msj = "Número de noticia inválido. Primero pídemelas de nuevo."
                 return msj, msj
         return "Falta el número de la noticia.", "Falta el número de la noticia."
 
     if accion == "ayuda":
-        msj = "Puedo darte hora, fecha, resumirte búsquedas de internet, abrir noticias por número, y gestionar tu música en YouTube."
-        return msj, msj
+        consola = """
+        ╔═════════════════════════════════════════════════════════╗
+        ║                 ✨ NIVY - SISTEMA EXPERTO ✨            ║
+        ╠═════════════════════════════════════════════════════════╣
+        ║ 🕒 BÁSICOS                                              ║
+        ║  • ¿Qué hora es? | ¿Qué fecha es?                       ║
+        ║                                                         ║
+        ║ 🎵 MÚSICA Y YOUTUBE                                     ║
+        ║  • Reproduce mi playlist | Electrónica | Metal          ║
+        ║  • Siguiente canción | Canción anterior                 ║
+        ║  • Pausa el video | Reanuda | ¿Qué estoy escuchando?    ║
+        ║  • Abre YouTube                                         ║
+        ║                                                         ║
+        ║ 🌐 INTERNET Y NOTICIAS                                  ║
+        ║  • Dame las noticias | Abre la noticia [1, 2, 3...]     ║
+        ║  • Busca en internet [tema]                             ║
+        ║                                                         ║
+        ║ 📞  Whatsapp                                           ║
+        ║  • Enviar un mensaje a [contacto] que diga [mensaje]    ║
+        ║  • lee mis mensajes                                     ║
+        ║                                                         ║
+        ║ ⚙️ SISTEMA                                              ║
+        ║  • Cambiar a modo voz | Cambiar a modo texto            ║
+        ║  • Salir                                                ║
+        ╚═════════════════════════════════════════════════════════╝
+        """
+        voz = "Aquí tienes la lista de comandos. Puedes pedirme la hora, buscar en internet, reproducir música o consultar las noticias."
+        return consola, voz
+
+    if accion == "enviar_whatsapp":
+        if whatsapp is None:
+            return "El módulo de WhatsApp no está disponible.", "Módulo de WhatsApp desactivado."
+        
+        grupos = resultado.get("grupos", ())
+        if len(grupos) >= 2:
+            contacto = grupos[0].strip()
+            mensaje = grupos[1].strip()
+            msj = whatsapp.enviar_mensaje(contacto, mensaje)
+            return msj, msj
+        return "No entendí a quién o qué enviar.", "Faltan datos para enviar el mensaje."
+
+    if accion == "leer_whatsapp":
+        if whatsapp is None:
+            return "El módulo de WhatsApp no está disponible.", "Módulo de WhatsApp desactivado."
+        
+        # leer_no_leidos ya devuelve la tupla (consola, voz)
+        return whatsapp.leer_no_leidos()
+
 
     return f"La acción '{accion}' no está implementada.", "Acción no implementada."
 
@@ -170,12 +213,10 @@ def obtener_noticias(limite=5):
         if not noticias:
             return "No encontré noticias.", "No encontré noticias actuales."
 
-        # Guardamos URLs en la memoria temporal para el comando "abrir noticia"
         ULTIMAS_NOTICIAS.clear()
         for _, enlace in noticias:
             ULTIMAS_NOTICIAS.append(enlace)
 
-        # SEPARACIÓN: Texto para imprimir vs Texto para hablar
         principal_titulo, principal_enlace = noticias[0]
         
         consola = [
@@ -188,12 +229,10 @@ def obtener_noticias(limite=5):
         
         for indice, (titulo, enlace) in enumerate(noticias[1:], start=2):
             consola.append(f"{indice}. {titulo}\n   -> [Ir a noticia]({enlace})")
-            # NIVY solo leerá los títulos limpios
             voz.append(f"Noticia {indice}: {titulo}.")
 
         consola.append("\n💡 Di 'abre la noticia 2' para visualizarla en tu navegador.")
-        
         return "\n".join(consola), " ".join(voz)
 
     except Exception as error:
-        return f"Error al consultar noticias: {error}", "No pude consultar las noticias debido a un error de red."
+        return f"Error al consultar noticias: {error}", "No pude consultar las noticias."
