@@ -1,0 +1,34 @@
+[
+  {
+    "id": "R1",
+    "si": [
+      "Las hojas presentan manchas amarillentas en la parte superior",
+      "Al voltear la hoja, hay un polvillo anaranjado (como polvo de ladrillo) en el envés, justo donde está la mancha"
+    ],
+    "entonces": "La planta tiene Roya. Se recomienda avisar al técnico de la cooperativa para indicar el control a aplicar, regular la sombra para mejorar la ventilación y planificar la renovación con variedades resistentes."
+  },
+  {
+    "id": "R2",
+    "si": [
+      "Las hojas están amarillas de forma uniforme (todas del mismo tono)",
+      "No hay manchas ni polvillo en la hoja",
+      "Las hojas afectadas son las viejas, ubicadas en la parte inferior de la rama"
+    ],
+    "entonces": "La planta no tiene una enfermedad, sino deficiencia de nitrógeno (hambre). La planta está consumiendo sus hojas viejas. Se recomienda aplicar fertilización."
+  },
+  {
+    "id": "R3",
+    "si": "Las hojas presentan manchas redondas de color café grisáceo, a veces con un agujero en el centro, en zonas de mucha lluvia y con sombra excesiva.",
+    "entonces": "La planta tiene 'Ojo de gallo'. Se recomienda podar y regular la sombra de la finca para que la planta se ventile y se seque más rápido después de la lluvia."
+  },
+  {
+    "id": "R4",
+    "si": "Las hojas presentan manchas de color café en forma de caminos o galerías irregulares por dentro de la hoja, y esto ocurre durante la época seca.",
+    "entonces": "La planta está afectada por el minador de la hoja. Se recomienda revisar la plantación, contar las hojas dañadas y avisar al técnico si el daño es extenso para decidir el control."
+  },
+  {
+    "id": "R5",
+    "si": "El fruto de café presenta un agujerito pequeño y redondo en la coronita y, al partirlo, el grano interno está dañado, perforado o con polvillo.",
+    "entonces": "El fruto está afectado por la Broca. Se recomienda realizar una recolección exhaustiva (incluyendo la 'repela' y frutos caídos al suelo) y colocar trampas con atrayente."
+  }
+]

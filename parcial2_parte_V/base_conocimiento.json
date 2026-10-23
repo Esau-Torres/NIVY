@@ -1,0 +1,15 @@
+{
+    "sistema": "Recomendar ropa según el clima",
+    "reglas": [
+        {
+            "id": "R1",
+            "si": ["esta lloviendo", "hace frio"],
+            "entonces": "usar chumpa impremiable"
+        },
+        {
+            "id": "R2",
+            "si": ["Hace mucho sol"],
+            "entonces": "usar gorra y bloqueador"
+        }
+    ]
+}

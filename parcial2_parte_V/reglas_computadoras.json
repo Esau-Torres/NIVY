@@ -1,0 +1,34 @@
+[
+  {
+    "id": "R1",
+    "si": [
+      "La computadora no enciende (sin luces ni ruido de ventiladores)",
+      "El cable de corriente, el tomacorriente y la regleta están bien conectados y encendidos"
+    ],
+    "entonces": "Es muy probable que la fuente de poder se haya dañado (posiblemente por un pico de voltaje). Se recomienda cambiar la fuente de poder y utilizar un regulador de voltaje."
+  },
+  {
+    "id": "R2",
+    "si": [
+      "La computadora enciende y se escuchan los ventiladores girando",
+      "La pantalla permanece negra",
+      "La máquina emite pitidos (como 'piii, piii') al encender"
+    ],
+    "entonces": "El problema está en la memoria RAM (está suelta o tiene los contactos sucios). Se recomienda sacar la memoria, limpiar los contactos dorados con un borrador de lápiz, soplar y volver a insertarla firmemente."
+  },
+  {
+    "id": "R3",
+    "si": "La computadora se apaga sola repentinamente después de trabajar un rato, la carcasa está muy caliente al tacto y el ventilador suena muy fuerte.",
+    "entonces": "El equipo se está sobrecalentando por acumulación de polvo interno. Se recomienda abrir el equipo, limpiar todo el polvo y cambiar la pasta térmica del procesador. (Si el ventilador no gira, debe reemplazarse)."
+  },
+  {
+    "id": "R4",
+    "si": "La computadora funciona muy lenta y, además, aparecen ventanas de publicidad no deseadas o el navegador se abre solo en páginas extrañas.",
+    "entonces": "El sistema está infectado con virus o programas basura (malware). Se recomienda ejecutar un análisis con un buen antivirus y limpiar el navegador."
+  },
+  {
+    "id": "R5",
+    "si": "La computadora tiene varios años de uso, está lenta y el disco interno emite un sonido repetitivo de 'clic... clic... clic'.",
+    "entonces": "El disco duro mecánico está fallando y a punto de morir. Se recomienda hacer una copia de seguridad de la información importante de inmediato y reemplazar el disco por una unidad de estado sólido (SSD)."
+  }
+]

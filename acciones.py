@@ -87,6 +87,18 @@ def buscar_informacion(consulta):
     return f"Te mostraré los resultados en tu navegador:\n-> [Ir a resultados]({enlace_google})", f"He abierto los resultados de {consulta} en tu navegador."
 
 def ejecutar(accion, resultado, conocimiento, reproductor=None, whatsapp=None):
+    # ---------------------------------------------------------
+    # dos reglas del parcial 2
+    # ---------------------------------------------------------
+    if accion == "consejo_lluvia":
+        msj = "Detecto condiciones de lluvia. 🌧️ Te recomiendo llevar paraguas, usar calzado impermeable y conducir con precaución."
+        return msj, msj
+
+    if accion == "consejo_sol":
+        msj = "El clima está soleado y caluroso. ☀️ Te recomiendo aplicar bloqueador solar, mantener una buena hidratación y evitar la exposición prolongada."
+        return msj, msj
+    # ---------------------------------------------------------
+
     if accion == "hora":
         msj = f"La hora actual es {ahora().strftime('%H:%M:%S')}."
         return msj, msj

@@ -297,7 +297,48 @@
       ],
       "accion": "leer_whatsapp",
       "respuesta": "Revisando WhatsApp en busca de mensajes nuevos."
-    }
+    },
+    {
+      "id": "R020",
+      "nombre": "Diagnóstico de PC lenta",
+      "prioridad": 90,
+      "patrones": [
+        "\\bmi computadora esta lenta\\b",
+        "\\bmi pc va muy lenta\\b",
+        "\\bla computadora esta lenta\\b"
+      ],
+      "accion": "diagnosticar_ram",
+      "respuesta": "El diagnóstico indica una posible falta de memoria RAM. Te sugiero revisar cuánta memoria tienes disponible."
+    },
 
+
+    {
+      "id": "R021",
+      "nombre": "Recomendación por lluvia",
+      "prioridad": 95,
+      "patrones": [
+        "\\b¿esta lloviendo?\\b",
+        "\\bnecesito paraguas\\b",
+        "\\bclima lluvioso\\b",
+        "\\bva a llover\\b",
+        "\\bcomo esta el clima de lluvia\\b"
+      ],
+      "accion": "consejo_lluvia",
+      "respuesta": "Detecto condiciones de lluvia. Te recomiendo llevar paraguas, usar calzado impermeable y conducir con precaución en las calles."
+    },
+    {
+      "id": "R022",
+      "nombre": "Recomendación por clima soleado",
+      "prioridad": 95,
+      "patrones": [
+        "\\bhace mucho sol\\b",
+        "\\bclima soleado\\b",
+        "\\bnecesito bloqueador\\b",
+        "\\besta muy caluroso\\b",
+        "\\bcomo esta el clima de sol\\b"
+      ],
+      "accion": "consejo_sol",
+      "respuesta": "El clima está soleado y caluroso. Te recomiendo aplicar bloqueador solar, mantener una buena hidratación y evitar la exposición prolongada al sol."
+    }
   ]
 }
